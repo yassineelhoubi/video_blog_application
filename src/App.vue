@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="app">
     <div id="nav">
       <navbar />
     </div>
@@ -7,7 +7,7 @@
       <router-view />
     </div>
     <div id="footer">
-<Footer/>
+      <Footer />
     </div>
   </div>
 </template>
@@ -20,19 +20,6 @@
   text-align: center;
   color: #2c3e50;
 }
-
-#nav {
-  // padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
 
 <script>
@@ -40,10 +27,9 @@
 import navbar from "@/components/navbar.vue";
 import Footer from "@/components/Footer.vue";
 export default {
-
   components: {
     navbar,
-    Footer
+    Footer,
   },
 };
 </script>
