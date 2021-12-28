@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div id="nav">
-      <navbar />
+      <Navbar />
     </div>
     <div id="body">
       <router-view />
@@ -24,11 +24,11 @@
 
 <script>
 // @ is an alias to /src
-import navbar from "@/components/navbar.vue";
+import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 export default {
   components: {
-    navbar,
+    Navbar,
     Footer,
   },
 };
