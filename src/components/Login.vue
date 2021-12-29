@@ -1,5 +1,5 @@
 <template>
-<h5 class="card-title">Welcome Back</h5>
+  <h5 class="card-title">Welcome Back</h5>
   <div class="card">
     <div class="card-body form-group">
       <label for="Reference">Email :</label>
@@ -25,8 +25,8 @@
 </template>
 <script>
 export default {
-  name: 'Login',
-    data() {
+  name: "Login",
+  data() {
     return {
       email: "",
       password: "",
@@ -34,17 +34,22 @@ export default {
   },
   methods: {
     login() {
-      console.log("login");
-      this.$store.dispatch("test");
+      if (this.email != "" && this.password != "") {
+        const data = {
+          email: this.email,
+          password: this.password,
+        };
+      
+        this.$store.dispatch("login", data);
+      } else {
+        alert("Please write your email and password");
+      }
     },
   },
-  props: {
-
-  }
-}
+  props: {},
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-
 </style>

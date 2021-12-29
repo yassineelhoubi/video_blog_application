@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 
@@ -17,8 +17,21 @@ export default createStore({
 
   },
   actions: {
-    test() {
-      console.log("zinzinefiuzenf")
+    login({ commit }, data) {
+      commit("commit")
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, data.email, data.password)
+        .then((userCredential) => {
+          // Signed in 
+          this.user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error("e", errorCode, errorMessage);
+        });
+     
     },
     register({ commit }, data) {
       commit("commit")
@@ -43,17 +56,17 @@ export default createStore({
       commit("commit")
 
       const storage = getStorage();
-      const storageRef = ref(storage, 'users/profileImg/'+this.user.uid+'/'+data.imgPath);
- 
+      const storageRef = ref(storage, 'users/profileImg/' + this.user.uid + '/' + data.imgPath);
+
       // 'file' comes from  File input
       uploadBytes(storageRef, data.img).then((snapshot) => {
-        console.log('Uploaded a blob or file!',snapshot);
+        console.log('Uploaded a blob or file!', snapshot);
       });
       // Delete img from the data so that it is not sent to collection user
       delete data.img;
 
       const db = getFirestore();
-      
+
       await setDoc(doc(db, "users", this.user.uid), data);
 
     },
