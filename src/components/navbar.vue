@@ -7,6 +7,7 @@
 
         <router-link class="nav-link" to="/">Home</router-link>
         <router-link class="nav-link" to="/blogs">Blogs</router-link>
+        <router-link class="nav-link" to="/authentication">Login</router-link>
 
       </div>
     </div>

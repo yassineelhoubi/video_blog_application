@@ -20,6 +20,12 @@
   text-align: center;
   color: #2c3e50;
 }
+#body{
+  background-color: rgb(242, 249, 255);
+  height: 85vh;
+
+}
+
 </style>
 
 <script>
