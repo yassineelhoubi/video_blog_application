@@ -34,7 +34,15 @@ export default {
   },
   methods: {
     register() {
-      console.log("register");
+      if (this.email == "" || this.password == "") {
+        alert("Please write your email and password");
+      } else {
+        const data = {
+          email: this.email,
+          password: this.password,
+        };
+        this.$store.dispatch("register", data);
+      }
     },
   },
   props: {},
