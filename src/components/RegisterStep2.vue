@@ -60,10 +60,17 @@ export default {
         fName: this.fName,
         nbrPhone: this.nbrPhone,
         img: this.img,
-        imgPath: this.img.name,
+        imgName: this.img.name,
       };
 
-      this.$store.dispatch("createUser", data);
+      this.$store
+        .dispatch("createUser", data)
+        .then((res) => {
+          console.log("done");
+        })
+        .catch((err) => {
+          console.log("err");
+        });
     },
   },
 };
