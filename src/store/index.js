@@ -31,7 +31,7 @@ export default createStore({
           // Signed in 
           this.user = userCredential.user;
           commit('isLoggedIn')
-          router.push('/blogs');
+          router.push('/dashboard');
           // ...
         })
         .catch((error) => {
