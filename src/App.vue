@@ -22,7 +22,7 @@
 }
 #body {
   background-color: rgb(242, 249, 255);
-  height: 85vh;
+  // height: 85vh;
 }
 </style>
 
@@ -43,6 +43,7 @@ export default {
       if (user) {
         this.$store.state.isLoggedIn = true;
         this.$store.state.user = user 
+        this.$router.push(window.location.pathname)
       }
     });
   },
