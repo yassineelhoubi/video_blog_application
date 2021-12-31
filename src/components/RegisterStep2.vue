@@ -55,6 +55,7 @@ export default {
       this.img = event.target.files[0];
     },
     createUser() {
+
       const data = {
         lName: this.lName,
         fName: this.fName,
@@ -66,10 +67,11 @@ export default {
       this.$store
         .dispatch("createUser", data)
         .then((res) => {
-          console.log("done");
+          this.$store.state.isLoggedIn = true;
+          this.$router.push('/dashboard')
         })
         .catch((err) => {
-          console.log("err");
+          console.log(err);
         });
     },
   },

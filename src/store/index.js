@@ -47,6 +47,7 @@ export default createStore({
       signOut(auth).then(() => {
         // Sign-out successful.
         commit('isLogout')
+        router.push('/')
       }).catch((error) => {
         console.log(error)
         // An error happened.
@@ -59,7 +60,6 @@ export default createStore({
           // Signed in
           this.user = userCredential.user;
           commit("isRegistred")
-          console.log(this.isLoggedIn)
 
           // ...
         })
@@ -90,8 +90,6 @@ export default createStore({
         setDoc(doc(db, "users", this.user.uid), data)
           .then(
             response => {
-
-
               resolve(response)
             }
           )
