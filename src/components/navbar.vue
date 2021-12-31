@@ -8,8 +8,8 @@
         <div class="navbar-nav">
           <router-link class="nav-link" to="/">Home</router-link>
           <router-link class="nav-link" to="/blogs">Blogs</router-link>
-          <router-link class="nav-link" v-if="isLoggedIn" to="/myBlog">My Blog</router-link>
           <router-link class="nav-link" v-if="!isLoggedIn" to="/authentication">Login</router-link>
+          <router-link class="nav-link" v-if="isLoggedIn" to="/dashboard">Dashboard</router-link>
         </div>
         <button class="btn btn-primary " v-if="isLoggedIn" @click="logout">logout</button>
       </div>

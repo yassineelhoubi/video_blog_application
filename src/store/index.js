@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getFirestore, doc, setDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-
+import router from '../router';
 export default createStore({
   state: {
     userRegistred: false,
@@ -31,7 +31,7 @@ export default createStore({
           // Signed in 
           this.user = userCredential.user;
           commit('isLoggedIn')
-
+          router.push('/blogs');
           // ...
         })
         .catch((error) => {

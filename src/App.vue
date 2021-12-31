@@ -40,7 +40,6 @@ export default {
   beforeCreate() {
     const auth = getAuth();
     onAuthStateChanged(auth, (user) => {
-      console.log(user)
       if (user) {
         this.$store.state.isLoggedIn = true;
         this.$store.state.user = user 
