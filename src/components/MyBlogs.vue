@@ -1,5 +1,13 @@
 <template>
   <div class="container">
+    <div class="row mb-5">
+      <h1>Hello to Your Dashboard</h1>
+      <div class=" ">
+        <button class="btn btn-primary" @click="goToCreateBlog">
+          Create New Blog
+        </button>
+      </div>
+    </div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col">
         <div class="card">
@@ -59,6 +67,11 @@
 <script>
 export default {
   name: "MyBlogs",
+  methods: {
+      goToCreateBlog(){
+          this.$emit('goToCreateBlog')
+      }
+  }
 };
 </script>
 

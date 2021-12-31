@@ -9,10 +9,12 @@ export default createStore({
     userRegistred: false,
     user: "",
     isLoggedIn: false,
+    createBlog: false,
   },
   getters: {
     userRegistred: state => state.userRegistred,
     isLoggedIn: state => state.isLoggedIn,
+    createBlog: state => state.createBlog
   },
   mutations: {
     isRegistred: state => state.userRegistred = true,
