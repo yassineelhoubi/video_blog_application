@@ -24,7 +24,17 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: Dashboard
+    component: Dashboard,
+    beforeEnter: (to, from, next) => {
+      if (store.state.isLoggedIn) {
+        console.log('if')
+        next();
+      } else {
+        console.log('else')
+        next('/')
+      }
+
+    }
   }
 ]
 
@@ -33,21 +43,6 @@ const router = createRouter({
   routes
 })
 
-router.beforeEach( async (to, from, next) => {
 
-
-  if (to.fullPath === '/dashboard') {
-    if (!store.state.isLoggedIn) {
-
-      next('/dashboard');
-    }
-  }
-  // if (to.fullPath === '/authentication') {
-  //   if (store.state.isLoggedIn) {
-  //     next('/bolgs');
-  //   }
-  // }
-  next();
-});
 
 export default router
