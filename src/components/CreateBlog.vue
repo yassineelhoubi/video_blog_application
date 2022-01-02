@@ -94,6 +94,7 @@ export default {
       }
     },
     submit() {
+      this.$store.state.loader = true;
       if (this.vdsCounter <= this.videos.length) {
         let indexOf = this.vdsCounter;
         this.uploadVds(this.videos[indexOf - 1]);
@@ -111,6 +112,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.$store.state.loader = false;
         });
     },
     uploadCoverImg() {
@@ -122,6 +124,7 @@ export default {
         })
         .catch((err) => {
           console.log(err);
+          this.$store.state.loader = false;
         });
     },
 
@@ -138,9 +141,11 @@ export default {
         .dispatch("createBlogStep1", data)
         .then((res) => {
           consol.log(res);
+          this.$store.state.loader = false;
         })
         .catch((err) => {
           console.log(err);
+          this.$store.state.loader = false;
         });
     },
   },

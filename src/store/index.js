@@ -10,11 +10,13 @@ export default createStore({
     user: "",
     isLoggedIn: false,
     createBlog: false,
+    loader: false,
   },
   getters: {
     userRegistred: state => state.userRegistred,
     isLoggedIn: state => state.isLoggedIn,
-    createBlog: state => state.createBlog
+    createBlog: state => state.createBlog,
+    loader: state => state.loader,
   },
   mutations: {
     isRegistred: state => state.userRegistred = true,
@@ -26,7 +28,9 @@ export default createStore({
 
   },
   actions: {
+    
     login({ commit }, data) {
+      return new Promise((resolve, reject) => {
       const auth = getAuth();
       signInWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
@@ -34,17 +38,19 @@ export default createStore({
           this.user = userCredential.user;
           commit('isLoggedIn')
           router.push('/dashboard');
+          resolve()
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.error("e", errorCode, errorMessage);
+          reject()
+
         });
+      });
 
     },
     logout({ commit }) {
-
       const auth = getAuth();
       signOut(auth).then(() => {
         // Sign-out successful.
@@ -56,21 +62,23 @@ export default createStore({
       });
     },
     register({ commit }, data) {
+      return new Promise((resolve, reject) => {
       const auth = getAuth();
       createUserWithEmailAndPassword(auth, data.email, data.password)
         .then((userCredential) => {
           // Signed in
           this.user = userCredential.user;
           commit("isRegistred")
-
+          resolve()
           // ...
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.error("e", errorCode, errorMessage);
+          reject()
           // ..
         });
+      });
     },
     createUser({ commit }, data) {
       return new Promise((resolve, reject) => {

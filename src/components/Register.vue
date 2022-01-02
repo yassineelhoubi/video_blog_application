@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     register() {
+      this.$store.state.loader = true;
       if (this.email == "" || this.password == "") {
         alert("Please write your email and password");
       } else {
@@ -41,7 +42,10 @@ export default {
           email: this.email,
           password: this.password,
         };
-        this.$store.dispatch("register", data);
+        this.$store
+          .dispatch("register", data)
+          .then(() => (this.$store.state.loader = false))
+          .catch(() => (this.$store.state.loader = false));
       }
     },
   },

@@ -55,24 +55,32 @@ export default {
       this.img = event.target.files[0];
     },
     createUser() {
+      this.$store.state.loader = true;
+      if (this.lName == "" || this.fName == "" || this.nbrPhone == "" || this.img == "") {
+        alert("Please enter all information");
+        this.$store.state.loader = false;
+      }else
+      {
+        const data = {
+          lName: this.lName,
+          fName: this.fName,
+          nbrPhone: this.nbrPhone,
+          img: this.img,
+          imgName: this.img.name,
+        };
 
-      const data = {
-        lName: this.lName,
-        fName: this.fName,
-        nbrPhone: this.nbrPhone,
-        img: this.img,
-        imgName: this.img.name,
-      };
-
-      this.$store
-        .dispatch("createUser", data)
-        .then((res) => {
-          this.$store.state.isLoggedIn = true;
-          this.$router.push('/dashboard')
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        this.$store
+          .dispatch("createUser", data)
+          .then((res) => {
+            this.$store.state.isLoggedIn = true;
+            this.$router.push("/dashboard");
+            this.$store.state.loader = false;
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$store.state.loader = false;
+          });
+      }
     },
   },
 };

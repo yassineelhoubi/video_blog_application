@@ -34,14 +34,19 @@ export default {
   },
   methods: {
     login() {
+      this.$store.state.loader = true;
       if (this.email != "" && this.password != "") {
         const data = {
           email: this.email,
           password: this.password,
         };
-      
-        this.$store.dispatch("login", data);
+
+        this.$store
+          .dispatch("login", data)
+          .then(() => (this.$store.state.loader = false))
+          .catch(() => (this.$store.state.loader = false));
       } else {
+        this.$store.state.loader = false;
         alert("Please write your email and password");
       }
     },
