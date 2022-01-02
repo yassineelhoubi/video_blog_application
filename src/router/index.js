@@ -27,10 +27,8 @@ const routes = [
     component: Dashboard,
     beforeEnter: (to, from, next) => {
       if (store.state.isLoggedIn) {
-        console.log('if')
         next();
       } else {
-        console.log('else')
         next('/')
       }
 

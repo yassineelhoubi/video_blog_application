@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, collection } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import router from '../router';
 export default createStore({
@@ -100,6 +100,80 @@ export default createStore({
           );
 
       })
+    },
+    uploadVds({ commit }, video) {
+      return new Promise((resolve, reject) => {
+        /* get time */
+        let today = new Date();
+        //Synthesizing a consistent date
+        let year = String(today.getFullYear()).padStart(2, "0");
+        let mounth = String(today.getMonth() + 1).padStart(2, "0");
+        let day = String(today.getDate()).padStart(2, "0");
+
+        let hours = String(today.getHours()).padStart(2, "0");
+        let minutes = String(today.getMinutes()).padStart(2, "0");
+        let seconds = String(today.getSeconds()).padStart(2, "0");
+        // YYYYMMDDHMS
+        const dateTime = year + mounth + day + hours + minutes + seconds;
+        const storage = getStorage();
+        const storageVdsRef = ref(storage, 'blogs/vds/' + dateTime + video.name);
+
+        uploadBytes(storageVdsRef, video).then((snapshot) => {
+          resolve(snapshot);
+        })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    uploadCoverImg({ commit }, CoverImg) {
+      return new Promise((resolve, reject) => {
+        /* get time */
+        let today = new Date();
+        //Synthesizing a consistent date
+        let year = String(today.getFullYear()).padStart(2, "0");
+        let mounth = String(today.getMonth() + 1).padStart(2, "0");
+        let day = String(today.getDate()).padStart(2, "0");
+
+        let hours = String(today.getHours()).padStart(2, "0");
+        let minutes = String(today.getMinutes()).padStart(2, "0");
+        let seconds = String(today.getSeconds()).padStart(2, "0");
+
+        // YYYYMMDDHMS
+        const dateTime = year + mounth + day + hours + minutes + seconds;
+        const storage = getStorage();
+        const storageVdsRef = ref(storage, 'blogs/CoverImg/' + dateTime + CoverImg.name);
+
+        uploadBytes(storageVdsRef, CoverImg).then((snapshot) => {
+          resolve(snapshot);
+        })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+    async createBlogStep1({ commit }, data) {
+
+      return new Promise((resolve, reject) => {
+        const coverImg = data.coverImg;
+        const videos = data.videos;
+        delete data.coverImg;
+        delete data.videos;
+
+        const db = getFirestore();
+
+        const docRef = addDoc(collection(db, "blogs"), data)
+          .then(
+            response => {
+              resolve(response)
+
+            }).catch((error) => {
+              return error
+            });
+
+      })
+
+
     }
 
   },

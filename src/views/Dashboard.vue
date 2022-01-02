@@ -1,7 +1,6 @@
 <template>
   <div id="myBlogs" class="pt-5 pb-3">
     <div class="container">
-      {{createBlog}}
       <MyBlogs v-if="!createBlog" @goToCreateBlog="goToCreateBlog"/>
       <CreateBlog v-else @cancelBlog="cancelBlog" />
     </div>
