@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, collection, getDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import router from '../router';
 export default createStore({
@@ -11,12 +11,16 @@ export default createStore({
     isLoggedIn: false,
     createBlog: false,
     loader: false,
+    createBlogStep2: false,
+    idBlog: null,
   },
   getters: {
     userRegistred: state => state.userRegistred,
     isLoggedIn: state => state.isLoggedIn,
     createBlog: state => state.createBlog,
     loader: state => state.loader,
+    idBlog: state => state.idBlog,
+    createBlogStep2: state => state.createBlogStep2,
   },
   mutations: {
     isRegistred: state => state.userRegistred = true,
@@ -28,25 +32,25 @@ export default createStore({
 
   },
   actions: {
-    
+
     login({ commit }, data) {
       return new Promise((resolve, reject) => {
-      const auth = getAuth();
-      signInWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
-          // Signed in 
-          this.user = userCredential.user;
-          commit('isLoggedIn')
-          router.push('/dashboard');
-          resolve()
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          reject()
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, data.email, data.password)
+          .then((userCredential) => {
+            // Signed in 
+            this.user = userCredential.user;
+            commit('isLoggedIn')
+            router.push('/dashboard');
+            resolve()
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            reject()
 
-        });
+          });
       });
 
     },
@@ -63,21 +67,21 @@ export default createStore({
     },
     register({ commit }, data) {
       return new Promise((resolve, reject) => {
-      const auth = getAuth();
-      createUserWithEmailAndPassword(auth, data.email, data.password)
-        .then((userCredential) => {
-          // Signed in
-          this.user = userCredential.user;
-          commit("isRegistred")
-          resolve()
-          // ...
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          reject()
-          // ..
-        });
+        const auth = getAuth();
+        createUserWithEmailAndPassword(auth, data.email, data.password)
+          .then((userCredential) => {
+            // Signed in
+            this.user = userCredential.user;
+            commit("isRegistred")
+            resolve()
+            // ...
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            reject()
+            // ..
+          });
       });
     },
     createUser({ commit }, data) {
@@ -181,6 +185,21 @@ export default createStore({
 
       })
 
+
+    },
+    getBlog() {
+      return new Promise( async (resolve, reject) => {
+        const id = this.state.idBlog
+        const db = getFirestore();
+        const docRef = doc(db, "blogs", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          resolve(docSnap.data())
+        } else {
+          reject()
+        }
+      })
 
     }
 

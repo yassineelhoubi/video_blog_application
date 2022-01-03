@@ -84,6 +84,9 @@ export default {
     cancelBlog() {
       this.$emit("cancelBlog");
     },
+    goToCreateBlogStep2() {
+      this.$emit("goToCreateBlogStep2");
+    },
     processCoverImg(event) {
       this.coverImg = event.target.files[0];
     },
@@ -140,8 +143,9 @@ export default {
       this.$store
         .dispatch("createBlogStep1", data)
         .then((res) => {
-          consol.log(res);
+          this.$store.state.idBlog = res.id
           this.$store.state.loader = false;
+          this.goToCreateBlogStep2()
         })
         .catch((err) => {
           console.log(err);
