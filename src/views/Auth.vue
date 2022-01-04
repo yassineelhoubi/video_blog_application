@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-5">
+  <div class="pt-5 container-auth">
     <div class="container" v-if="!userRegistred">
       <div class="row">
         <div class="col-md-6 col-12 mx-auto">
@@ -87,3 +87,10 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+.container-auth{
+
+  height:85vh
+}
+</style>
