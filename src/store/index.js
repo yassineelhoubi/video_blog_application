@@ -1,7 +1,19 @@
 import { createStore } from 'vuex'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, addDoc, collection, getDoc, updateDoc, deleteDoc, getDocs } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  addDoc,
+  collection,
+  getDoc,
+  updateDoc,
+  deleteDoc,
+  getDocs,
+  query,
+  where
+} from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import router from '../router';
 export default createStore({
@@ -223,8 +235,19 @@ export default createStore({
           reject()
         }
       })
-    }
-
+    },
+    getMyBlogs() {
+      return new Promise(async (resolve, reject) => {
+        const db = getFirestore();
+        const q = query(collection(db, "blogs"),where("idAuthor","==",this.state.user.uid));
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot) {
+          resolve(querySnapshot)
+        } else {
+          reject()
+        }
+      })
+    },
   },
   modules: {
   }

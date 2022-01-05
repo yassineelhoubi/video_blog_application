@@ -12,5 +12,7 @@
   }
   </script>
 <style lang="scss">
-
+#myBlogs {
+  min-height: 85vh;
+}
 </style>

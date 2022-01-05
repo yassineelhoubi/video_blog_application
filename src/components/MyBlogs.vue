@@ -2,61 +2,19 @@
   <div class="container">
     <div class="row mb-5">
       <h1>Hello to Your Dashboard</h1>
-      <div class=" ">
+      <div class="">
         <button class="btn btn-primary" @click="goToCreateBlog">
           Create New Blog
         </button>
       </div>
     </div>
     <div class="row row-cols-1 row-cols-md-3 g-4">
-      <div class="col">
+      <div class="col" v-for="blog in blogs" :key="blog.id">
         <div class="card">
-          <img src="../assets/img/hero-bg.png" class="card-img-top" alt="..." />
+          <img :src="blog.coverImgUrl" class="card-img-top" alt="..." />
           <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="../assets/img/hero-bg.png" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="../assets/img/hero-bg.png" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a longer card with supporting text below as a natural
-              lead-in to additional content.
-            </p>
-          </div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="card">
-          <img src="../assets/img/hero-bg.png" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <p class="card-text">
-              This is a longer card with supporting text below as a natural
-              lead-in to additional content. This content is a little bit
-              longer.
-            </p>
+            <h5 class="card-title">{{ blog.title }}</h5>
+            <p class="card-text">{{ blog.blogBody }}</p>
           </div>
         </div>
       </div>
@@ -67,11 +25,28 @@
 <script>
 export default {
   name: "MyBlogs",
+  data() {
+    return {
+      blogs: [],
+    };
+  },
+  beforeCreate() {
+    this.$store
+      .dispatch("getMyBlogs")
+      .then((res) => {
+        res.forEach((doc) => {
+          this.blogs.push(doc.data());
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  },
   methods: {
-      goToCreateBlog(){
-          this.$emit('goToCreateBlog')
-      }
-  }
+    goToCreateBlog() {
+      this.$emit("goToCreateBlog");
+    },
+  },
 };
 </script>
 

@@ -10,7 +10,10 @@
         @cancelBlog="cancelBlog"
         @goToCreateBlogStep2="goToCreateBlogStep2"
       />
-      <CreateBlogStep2 v-else @BlogValidatedOrCanceled="BlogValidatedOrCanceled" />
+      <CreateBlogStep2
+        v-else
+        @BlogValidatedOrCanceled="BlogValidatedOrCanceled"
+      />
     </div>
   </div>
 </template>
@@ -54,5 +57,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+#myBlogs {
+  min-height: 85vh;
+}
 </style>
