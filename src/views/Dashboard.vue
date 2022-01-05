@@ -1,9 +1,16 @@
 <template>
   <div id="myBlogs" class="pt-5 pb-3">
     <div class="container">
-      <MyBlogs v-if="!createBlog && !createBlogStep2" @goToCreateBlog="goToCreateBlog"/>
-      <CreateBlog v-else-if="createBlog && !createBlogStep2" @cancelBlog="cancelBlog" @goToCreateBlogStep2="goToCreateBlogStep2"/>
-      <CreateBlogStep2 v-else/>
+      <MyBlogs
+        v-if="!createBlog && !createBlogStep2"
+        @goToCreateBlog="goToCreateBlog"
+      />
+      <CreateBlog
+        v-else-if="createBlog && !createBlogStep2"
+        @cancelBlog="cancelBlog"
+        @goToCreateBlogStep2="goToCreateBlogStep2"
+      />
+      <CreateBlogStep2 v-else @BlogValidatedOrCanceled="BlogValidatedOrCanceled" />
     </div>
   </div>
 </template>
@@ -19,25 +26,30 @@ export default {
   components: {
     MyBlogs,
     CreateBlog,
-    CreateBlogStep2
+    CreateBlogStep2,
   },
   computed: {
-    ...mapGetters(["createBlog","createBlogStep2"]),
-
+    ...mapGetters(["createBlog", "createBlogStep2"]),
   },
   methods: {
+    goToDashboard() {
+      this.$store.state.createBlog = false;
+      this.$store.state.createBlogStep2 = false;
+    },
     goToCreateBlog() {
       this.$store.state.createBlog = true;
       this.$store.state.createBlogStep2 = false;
     },
-    cancelBlog(){
-      this.$store.state.createBlog = false;
-      this.$store.state.createBlogStep2 = false;
+    cancelBlog() {
+      this.goToDashboard();
     },
-    goToCreateBlogStep2(){
+    goToCreateBlogStep2() {
       this.$store.state.createBlog = false;
       this.$store.state.createBlogStep2 = true;
-    }
+    },
+    BlogValidatedOrCanceled() {
+      this.goToDashboard();
+    },
   },
 };
 </script>

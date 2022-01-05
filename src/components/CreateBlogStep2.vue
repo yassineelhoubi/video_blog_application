@@ -21,7 +21,6 @@
               <textarea
                 class="form-control"
                 rows="3"
-
                 v-model="blogBody"
                 placeholder="Description"
               ></textarea>
@@ -45,10 +44,12 @@
             </div>
           </div>
         </div>
-        <div class="form-group  pt-3">
-<div class="form-label fw-bold">Submit Your Blog To Be Available</div>
-              <button class="btn btn-outline-primary me-2 w-25  " @click="submit">Submit</button>
-              <button class="btn btn-outline-danger " @click="cancel">Cancel</button>
+        <div class="form-group pt-3">
+          <div class="form-label fw-bold">Submit Your Blog To Be Available</div>
+          <button class="btn btn-outline-primary me-2 w-25" @click="submit">
+            Submit
+          </button>
+          <button class="btn btn-outline-danger" @click="cancel">Cancel</button>
         </div>
       </div>
     </div>
@@ -85,6 +86,7 @@ export default {
   },
   methods: {
     submit() {
+      this.$store.state.loader = true;
       const data = {
         title: this.title,
         blogBody: this.blogBody,
@@ -93,20 +95,28 @@ export default {
       };
       this.$store
         .dispatch("validateBlog", data)
-        .then((res) => {
-          console.log(res);
+        .then(() => {
+          this.BlogValidatedOrCanceled();
+          this.$store.state.loader = false;
         })
         .catch((err) => {
           console.log(err);
         });
     },
-    cancel(){
-      this.$store.dispatch("deleteBlog",this.id).then(()=>{
-        console.log("deleted")
-      }).catch((err) => {
-        console.log(err);
-      })
-    }
+    cancel() {
+      this.$store
+        .dispatch("deleteBlog", this.id)
+        .then(() => {
+          this.BlogValidatedOrCanceled();
+          this.$store.state.loader = false;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    BlogValidatedOrCanceled() {
+      this.$emit("BlogValidatedOrCanceled");
+    },
   },
 };
 </script>
