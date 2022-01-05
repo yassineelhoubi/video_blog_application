@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, addDoc, collection, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, collection, getDoc, updateDoc, deleteDoc, getDocs } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import router from '../router';
 export default createStore({
@@ -195,22 +195,33 @@ export default createStore({
       return new Promise(async (resolve, reject) => {
         const db = getFirestore();
         await updateDoc(doc(db, "blogs", data.id), data)
-        .then((res)=>{
-          resolve()
-        }).catch((err)=>{
-          console.log(err)
-        })
+          .then((res) => {
+            resolve()
+          }).catch((err) => {
+            console.log(err)
+          })
         reject()
       })
     },
-    deleteBlog({ commit }, id){
+    deleteBlog({ commit }, id) {
       return new Promise((resolve, reject) => {
-        const db = getFirestore(); 
-        deleteDoc(doc(db, "blogs", id)).then(()=>{
+        const db = getFirestore();
+        deleteDoc(doc(db, "blogs", id)).then(() => {
           resolve()
-        }).catch((err)=>{
+        }).catch((err) => {
           reject(err)
         })
+      })
+    },
+    getAllBlog() {
+      return new Promise(async (resolve, reject) => {
+        const db = getFirestore();
+        const querySnapshot = await getDocs(collection(db, "blogs"));
+        if (querySnapshot) {
+          resolve(querySnapshot)
+        } else {
+          reject()
+        }
       })
     }
 

@@ -1,10 +1,16 @@
 <template>
-  <div id="blogs">
-    <h1>This is an blogs page</h1>
+  <div id="blogs" class="container pt-5 pb-5">
+    <Blogs/>
   </div>
 </template>
+  <script>
+  import Blogs from "@/components/Blogs.vue";
+  export default {
+    components: {
+    Blogs,
+    },
+  }
+  </script>
 <style lang="scss">
-#blogs{
-  height:85vh
-}
+
 </style>
