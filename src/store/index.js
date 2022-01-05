@@ -228,7 +228,8 @@ export default createStore({
     getAllBlog() {
       return new Promise(async (resolve, reject) => {
         const db = getFirestore();
-        const querySnapshot = await getDocs(collection(db, "blogs"));
+        const q = query(collection(db, "blogs"),where("isProvisional","==",false));
+        const querySnapshot = await getDocs(q);
         if (querySnapshot) {
           resolve(querySnapshot)
         } else {
@@ -239,7 +240,7 @@ export default createStore({
     getMyBlogs() {
       return new Promise(async (resolve, reject) => {
         const db = getFirestore();
-        const q = query(collection(db, "blogs"),where("idAuthor","==",this.state.user.uid));
+        const q = query(collection(db, "blogs"),where("idAuthor","==",this.state.user.uid),where("isProvisional","==",false));
         const querySnapshot = await getDocs(q);
         if (querySnapshot) {
           resolve(querySnapshot)
