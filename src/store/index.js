@@ -1,7 +1,7 @@
 import { createStore } from 'vuex'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { getFirestore, doc, setDoc, addDoc, collection, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, addDoc, collection, getDoc, updateDoc, deleteDoc } from "firebase/firestore";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import router from '../router';
 export default createStore({
@@ -160,13 +160,17 @@ export default createStore({
         const db = getFirestore();
 
         const docRef = addDoc(collection(db, "blogs"), data)
-          .then(
-            response => {
-              resolve(response)
+          .then(async (res) => {
 
-            }).catch((error) => {
-              return error
-            });
+            await updateDoc(doc(db, "blogs", res.id), {
+              id: res.id
+            })
+            resolve(res)
+
+          }).catch((error) => {
+            reject(error)
+
+          });
 
       })
 
@@ -186,6 +190,28 @@ export default createStore({
         }
       })
 
+    },
+    validateBlog({ commit }, data) {
+      return new Promise(async (resolve, reject) => {
+        const db = getFirestore();
+        await updateDoc(doc(db, "blogs", data.id), data)
+        .then((res)=>{
+          resolve()
+        }).catch((err)=>{
+          console.log(err)
+        })
+        reject()
+      })
+    },
+    deleteBlog({ commit }, id){
+      return new Promise((resolve, reject) => {
+        const db = getFirestore(); 
+        deleteDoc(doc(db, "blogs", id)).then(()=>{
+          resolve()
+        }).catch((err)=>{
+          reject(err)
+        })
+      })
     }
 
   },
