@@ -138,6 +138,8 @@ export default {
         coverImgUrl: this.coverImgUrl,
         videosUrl: this.videosUrl,
         isProvisional: true,
+        idAuthor: this.$store.state.user.uid,
+        createdAt: new Date().getTime(),
       };
 
       this.$store
