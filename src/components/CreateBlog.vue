@@ -73,7 +73,7 @@ export default {
   data() {
     return {
       videos: [],
-      videosPath: [],
+      videosUrl: [],
       title: null,
       blogBody: null,
       coverImg: null,
@@ -108,9 +108,9 @@ export default {
     uploadVds(video) {
       this.$store
         .dispatch("uploadVds", video)
-        .then((res) => {
+        .then((url) => {
           this.vdsCounter++;
-          this.videosPath.push(res.ref.fullPath);
+          this.videosUrl.push(url);
           this.submit();
         })
         .catch((err) => {
@@ -121,8 +121,8 @@ export default {
     uploadCoverImg() {
       this.$store
         .dispatch("uploadCoverImg", this.coverImg)
-        .then((res) => {
-          this.coverImgPath = res.ref.fullPath;
+        .then((url) => {
+          this.coverImgUrl = url;
           this.createBlogStep1();
         })
         .catch((err) => {
@@ -135,17 +135,17 @@ export default {
       const data = {
         title: this.title,
         blogBody: this.blogBody,
-        coverImgPath: this.coverImgPath,
-        videosPath: this.videosPath,
+        coverImgUrl: this.coverImgUrl,
+        videosUrl: this.videosUrl,
         isProvisional: true,
       };
 
       this.$store
         .dispatch("createBlogStep1", data)
         .then((res) => {
-          this.$store.state.idBlog = res.id
+          this.$store.state.idBlog = res.id;
           this.$store.state.loader = false;
-          this.goToCreateBlogStep2()
+          this.goToCreateBlogStep2();
         })
         .catch((err) => {
           console.log(err);

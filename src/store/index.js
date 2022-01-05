@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { getFirestore, doc, setDoc, addDoc, collection, getDoc } from "firebase/firestore";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import router from '../router';
 export default createStore({
   state: {
@@ -115,24 +115,18 @@ export default createStore({
     },
     uploadVds({ commit }, video) {
       return new Promise((resolve, reject) => {
-        /* get time */
-        let today = new Date();
-        //Synthesizing a consistent date
-        let year = String(today.getFullYear()).padStart(2, "0");
-        let mounth = String(today.getMonth() + 1).padStart(2, "0");
-        let day = String(today.getDate()).padStart(2, "0");
 
-        let hours = String(today.getHours()).padStart(2, "0");
-        let minutes = String(today.getMinutes()).padStart(2, "0");
-        let seconds = String(today.getSeconds()).padStart(2, "0");
-        // YYYYMMDDHMS
-        const dateTime = year + mounth + day + hours + minutes + seconds;
         const storage = getStorage();
-        const storageVdsRef = ref(storage, 'blogs/vds/' + dateTime + video.name);
+        const storageVdsRef = ref(storage, 'blogs/vds/' + new Date().getTime() + video.name);
 
-        uploadBytes(storageVdsRef, video).then((snapshot) => {
-          resolve(snapshot);
-        })
+        uploadBytes(storageVdsRef, video)
+          .then((snapshot) => {
+            getDownloadURL(snapshot.ref).then((downloadURL) => {
+              resolve(downloadURL);
+            }).catch(error => {
+              reject(error);
+            })
+          })
           .catch((error) => {
             reject(error);
           });
@@ -140,24 +134,15 @@ export default createStore({
     },
     uploadCoverImg({ commit }, CoverImg) {
       return new Promise((resolve, reject) => {
-        /* get time */
-        let today = new Date();
-        //Synthesizing a consistent date
-        let year = String(today.getFullYear()).padStart(2, "0");
-        let mounth = String(today.getMonth() + 1).padStart(2, "0");
-        let day = String(today.getDate()).padStart(2, "0");
-
-        let hours = String(today.getHours()).padStart(2, "0");
-        let minutes = String(today.getMinutes()).padStart(2, "0");
-        let seconds = String(today.getSeconds()).padStart(2, "0");
-
-        // YYYYMMDDHMS
-        const dateTime = year + mounth + day + hours + minutes + seconds;
         const storage = getStorage();
-        const storageVdsRef = ref(storage, 'blogs/CoverImg/' + dateTime + CoverImg.name);
+        const storageVdsRef = ref(storage, 'blogs/CoverImg/' + new Date().getTime() + CoverImg.name);
 
         uploadBytes(storageVdsRef, CoverImg).then((snapshot) => {
-          resolve(snapshot);
+          getDownloadURL(snapshot.ref).then((downloadURL) => {
+            resolve(downloadURL);
+          }).catch(error => {
+            reject(error);
+          })
         })
           .catch((error) => {
             reject(error);
@@ -188,7 +173,7 @@ export default createStore({
 
     },
     getBlog() {
-      return new Promise( async (resolve, reject) => {
+      return new Promise(async (resolve, reject) => {
         const id = this.state.idBlog
         const db = getFirestore();
         const docRef = doc(db, "blogs", id);

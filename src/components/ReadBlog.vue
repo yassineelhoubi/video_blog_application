@@ -8,20 +8,16 @@
           </div>
           <div class="row">
             <div class="col-12 text-start">
-              <h4><span class="fw-bold">Title :</span>{{ title }}</h4>
+              <h4><span class="fw-bold">Title :</span>{{title}}</h4>
             </div>
             <div class="col-12 text-start">
               <h4 class="fw-bold">Description :</h4>
-              <p>{{ blogBody }}</p>
+              <p>{{blogBody}}</p>
             </div>
             <div class="col-12 text-start">
               <div class="container mt-3">
                 <div class="row row-cols-1 row-cols-md-2 g-4">
-                  <div
-                    class="col"
-                    v-for="(vedio, index) in videosUrl"
-                    :key="index"
-                  >
+                  <div class="col" v-for="(vedio,index) in videosUrl" :key="index">
                     <div class="card">
                       <video autoplay controls class="card-img-top">
                         <source
@@ -49,6 +45,7 @@ export default {
   computed: {},
   data() {
     return {
+
       videosUrl: [],
       title: null,
       blogBody: null,
