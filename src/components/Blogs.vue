@@ -1,16 +1,14 @@
 <template>
   <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col" v-for="blog in blogs" :key="blog.id">
-      <div class="card">
+      <div class="card" @click="readBlog(blog.id)">
         <img :src="blog.coverImgUrl" class="card-img-top" alt="..." />
         <div class="card-body">
-          <h5 class="card-title">{{blog.title}}</h5>
-          <p class="card-text">{{blog.blogBody}}
-          </p>
+          <h5 class="card-title">{{ blog.title }}</h5>
+          <p class="card-text">{{ blog.blogBody }}</p>
         </div>
       </div>
     </div>
-    
   </div>
 </template>
 
@@ -29,17 +27,25 @@ export default {
         res.forEach((doc) => {
           this.blogs.push(doc.data());
         });
-
       })
       .catch((err) => {
         console.log(err);
       });
+  },
+  methods: {
+    readBlog(id) {
+      this.$emit("readBlog", id);
+    },
   },
 };
 </script>
 
 <style lang="scss">
 .card {
+  cursor: pointer;
+  &:hover {
+    box-shadow: 5px 3px 47px 3px;
+  }
   .card-img-top {
     height: 200px;
     object-fit: cover;

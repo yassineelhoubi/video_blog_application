@@ -1,18 +1,33 @@
 <template>
   <div id="blogs" class="container pt-5 pb-5">
-    <Blogs/>
+    <Blogs v-if="!blogSingle" @readBlog="readBlog" />
+    <ReadBlog v-else @readBlog="readBlog" />
   </div>
 </template>
   <script>
-  import Blogs from "@/components/Blogs.vue";
-  export default {
-    components: {
+import Blogs from "@/components/Blogs.vue";
+import ReadBlog from "@/components/ReadBlog.vue";
+
+export default {
+  components: {
     Blogs,
-    },
-  }
-  </script>
+    ReadBlog
+  },
+  data() {
+    return {
+      blogSingle: false,
+    };
+  },
+  methods: {
+    readBlog(id){
+      this.blogSingle = !this.blogSingle;
+      this.$store.state.idBlog = id;
+    }
+  },
+};
+</script>
 <style lang="scss">
-#myBlogs {
+#blogs {
   min-height: 85vh;
 }
 </style>
