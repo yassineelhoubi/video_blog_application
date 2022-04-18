@@ -44,7 +44,7 @@ export default {
 .card {
   cursor: pointer;
   &:hover {
-    box-shadow: 5px 3px 47px 3px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
   .card-img-top {
     height: 200px;
