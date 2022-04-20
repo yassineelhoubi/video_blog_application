@@ -1,25 +1,22 @@
 <template>
   <div class="container">
     <div class="row mb-5">
-      <div class="">
+      <div class="d-flex justify-content-end">
         <button class="btn btn-secondary" @click="backToList">Return</button>
       </div>
     </div>
     <div class="row justify-content-center mb-5">
       <div class="col-md-8">
         <div class="contaienr">
-          <div class="row mb-4">
-            <img :src="coverImgUrl" class="col-12" alt="" />
-          </div>
           <div class="row">
             <div class="mb-3 col-12 text-start">
-              <h1>
-                <label class="form-label fw-bold">title : </label>
-                <span>{{ title }}</span>
+              <h1 class="form-label fw-bold">
+                {{ title }}
               </h1>
             </div>
+            <img :src="coverImgUrl" class="col-12" alt="" />
             <div class="mb-3 col-12 text-start">
-              <label class="form-label fw-bold">Description : </label>
+              <label class="form-label fw-bold mt-5">Description : </label>
               <p>{{ blogBody }}</p>
             </div>
             <div class="col-12 text-start">
