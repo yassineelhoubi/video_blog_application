@@ -8,9 +8,9 @@
         </button>
       </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div v-if="!blogSingle" class="row row-cols-1 row-cols-md-3 g-4">
       <div class="col" v-for="blog in blogs" :key="blog.id">
-        <div class="card">
+        <div class="card" @click="readBlog(blog.id)">
           <img :src="blog.coverImgUrl" class="card-img-top" alt="..." />
           <div class="card-body">
             <h5 class="card-title">{{ blog.title }}</h5>
@@ -19,17 +19,26 @@
         </div>
       </div>
     </div>
+    <div v-if="blogSingle">
+      <ReadBlog />
+    </div>
   </div>
 </template>
 
 <script>
+import ReadBlog from "@/components/ReadBlog.vue";
 export default {
   name: "MyBlogs",
+  components: {
+    ReadBlog,
+  },
   data() {
     return {
       blogs: [],
+      blogSingle: false,
     };
   },
+
   beforeCreate() {
     this.$store
       .dispatch("getMyBlogs")
@@ -45,6 +54,10 @@ export default {
   methods: {
     goToCreateBlog() {
       this.$emit("goToCreateBlog");
+    },
+    readBlog(id) {
+      this.blogSingle = !this.blogSingle;
+      this.$store.state.idBlog = id;
     },
   },
 };

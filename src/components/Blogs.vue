@@ -1,5 +1,5 @@
 <template>
-  <div class="row row-cols-1 row-cols-md-3 g-4">
+  <div class="row row-cols-1 row-cols-md-3 g-4 ">
     <div class="col" v-for="blog in blogs" :key="blog.id">
       <div class="card" @click="readBlog(blog.id)">
         <img :src="blog.coverImgUrl" class="card-img-top" alt="..." />
@@ -42,11 +42,13 @@ export default {
 
 <style lang="scss">
 .card {
+  border-radius: 10px !important;
   cursor: pointer;
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
   }
   .card-img-top {
+    border-radius: 10px 10px 0 0 !important;
     height: 200px;
     object-fit: cover;
   }
